@@ -7,6 +7,7 @@ const Footer = ({ todo, cleanTodo, selectTodo, handleMultipleRemove }) => {
         const selectIndex = [];
         if (select === 0) {
             cleanTodo();
+            window.localStorage.clear();
         } else {
             for (let i = 0; i < todo.length; i++) {
                 if (todo[i].completed) {
@@ -37,7 +38,6 @@ const Footer = ({ todo, cleanTodo, selectTodo, handleMultipleRemove }) => {
                 </svg>
                 <span>Remove {select === 0 ? 'All' : select}</span>
             </button>
-            {/* </label> */}
         </div>
     );
 };

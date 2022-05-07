@@ -26,6 +26,7 @@ const Input = ({ addTodo }) => {
                     className="input-text"
                     onChange={handleChange}
                     value={value}
+                    autoFocus
                 />
                 <button type="submit" onClick={handleClick} className="btn-add">
                     <svg

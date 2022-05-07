@@ -5,7 +5,8 @@ import Todo from './Components/Todo/Todo';
 import './styles/tailwind.css';
 
 const App = () => {
-    const [todos, setTodos] = useState([]);
+    const initState = JSON.parse(window.localStorage.getItem('todos')) || [];
+    const [todos, setTodos] = useState(initState);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,7 +16,14 @@ const App = () => {
         const newTodo = { todo: todo, completed: false };
         const todoExists = todos.find((todo) => todo.todo === newTodo.todo);
         if (!todoExists) {
-            setTodos([...todos, newTodo]);
+            setTodos((prev) => {
+                const newTodoList = [...prev, newTodo];
+
+                const initTodo = JSON.stringify(newTodoList);
+                window.localStorage.setItem('todos', initTodo);
+
+                return newTodoList;
+            });
         } else {
             alert('Todo already exists');
         }
@@ -25,17 +33,27 @@ const App = () => {
         const newTodos = [...todos];
         newTodos[index].completed = !newTodos[index].completed;
         setTodos(newTodos);
+        window.localStorage.setItem('todos', JSON.stringify(todos));
     };
 
     const handleRemove = (index) => {
         const newTodo = todos.filter((_, idx) => idx !== index);
         setTodos(newTodo);
+        window.localStorage.setItem('todos', JSON.stringify(todos));
     };
 
     const handleMultipleRemove = (index) => {
         const newTodo = todos.filter((_, idx) => !index.includes(idx));
         setTodos(newTodo);
     };
+
+    const handleUpdate = (index, todo) => {
+        const newTodos = [...todos];
+        newTodos[index].todo = todo;
+        setTodos(newTodos);
+        window.localStorage.setItem('todos', JSON.stringify(todos));
+    };
+
     const cleanTodo = () => {
         setTodos([]);
     };
@@ -56,6 +74,7 @@ const App = () => {
                     todo={todos}
                     handleRemovex={handleRemove}
                     toggleToDo={toggleToDo}
+                    handleUpdate={handleUpdate}
                 />
                 <Footer
                     cleanTodo={cleanTodo}
