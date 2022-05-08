@@ -14,7 +14,6 @@ const Footer = ({ todo, cleanTodo, selectTodo, handleMultipleRemove }) => {
                     selectIndex.push(i);
                 }
             }
-
             handleMultipleRemove(selectIndex);
         }
     };

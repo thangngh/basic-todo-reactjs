@@ -16,6 +16,9 @@ function TodoList({
     };
 
     const handleEditTodo = () => {
+        if (completed) {
+            return;
+        }
         setEdit(true);
     };
 
@@ -49,6 +52,11 @@ function TodoList({
                         onChange={handleChange}
                         id={id}
                         autoFocus
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSave(id);
+                            }
+                        }}
                     />
                     <button onClick={() => handleSave(id)} className="btn-edit">
                         <svg

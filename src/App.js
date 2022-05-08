@@ -39,12 +39,13 @@ const App = () => {
     const handleRemove = (index) => {
         const newTodo = todos.filter((_, idx) => idx !== index);
         setTodos(newTodo);
-        window.localStorage.setItem('todos', JSON.stringify(todos));
+        removeStorageValue(index);
     };
 
     const handleMultipleRemove = (index) => {
         const newTodo = todos.filter((_, idx) => !index.includes(idx));
         setTodos(newTodo);
+        removeCompletedStorageValue(index);
     };
 
     const handleUpdate = (index, todo) => {
@@ -61,6 +62,21 @@ const App = () => {
     const selectTodo = () => {
         const todoList = todos.filter((td) => td.completed === true);
         return todoList.length;
+    };
+
+    const removeStorageValue = (index) => {
+        const newTodos = [...todos];
+        if (newTodos[index].completed === true) {
+            newTodos.splice(index, 1);
+            setTodos(newTodos);
+            window.localStorage.setItem('todos', JSON.stringify(newTodos));
+        }
+    };
+
+    const removeCompletedStorageValue = () => {
+        const newTodos = todos.filter((td) => td.completed === false);
+        setTodos(newTodos);
+        window.localStorage.setItem('todos', JSON.stringify(newTodos));
     };
 
     return (
